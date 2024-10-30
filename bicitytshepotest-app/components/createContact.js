@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CreateContact() {
+function CreateContact({ switchToContactsTab }) {
 
     const [contactName, setContactName] = useState('');
     const [contactSurname, setContactSurname] = useState('');
@@ -28,15 +28,17 @@ function CreateContact() {
             setContactSurname('');
             setContactEmail('');
 
+            switchToContactsTab();
+
         } else {
             alert(`Error: ${result.error}`);
             console.error(result.error);
         }
     };
     return (
-        <div className='w-[350px] ml-[120px] mt-[50px]'>
+        <div className='w-[350px] ml-[120px] mt-[-18px]'>
             <form onSubmit={handleCreateContact} className="space-y-4 bg-gray-100 p-4 
-            rounded shadow-md">
+            rounded shadow-md mr-[50px]">
                 <input
                     type="text"
                     placeholder="Name"
@@ -60,7 +62,7 @@ function CreateContact() {
                 />
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    className="px-4 py-2 bg-[#c9184a] text-white rounded hover:bg-[#a4133c]"
                 >
                     Add Contact
                 </button>

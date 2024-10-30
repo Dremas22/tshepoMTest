@@ -1,114 +1,166 @@
-import CreateClient from "./createClient"
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import CreateClient from "./createClient";
+import ClientTable from "./clientTable";
 import CreateContact from "./createContact";
+import { supabase } from "@/db/lib"; // Import your supabase client
+import ContactTable from "./contactTable";
 
 function HomePage() {
+    const [activeTab, setActiveTab] = useState("general");
+    const [isCreateClient, setIsCreateClient] = useState(false);
+    const [isCreateContact, setIsCreateContact] = useState(false);
+    const [isCreateButtons, setIsCreateButtons] = useState(true);
+    const [clients, setClients] = useState([]);
+    const [contacts, setContacts] = useState([]);
 
-    const [activeTab, setActiveTab] = useState('general');
-    const [isCreateClient, setIsCreateClient] = useState();
-    const [isCreateContact, setCreateContact] = useState();
-    const [isCreateButtons, SetIsCreateButtons] = useState(true);
+    useEffect(() => {
+        if (activeTab === "clients") {
+            fetchClients();
+        }
+    }, [activeTab]);
 
-    function handleToggleTabs(tab) {
+    useEffect(() => {
+        if (activeTab === "contacts") {
+            fetchContacts();
+        }
+    }, [activeTab]);
+
+    const fetchClients = async () => {
+        const { data, error } = await supabase.from("clients").select("*");
+        if (data) {
+            setClients(data);
+        } else if (error) {
+            console.error("Error fetching clients:", error);
+        }
+    };
+
+    const fetchContacts = async () => {
+        const { data, error } = await supabase.from("contacts").select("*");
+        if (data) {
+            setContacts(data);
+        } else if (error) {
+            console.error("Error fetching contacts:", error);
+        }
+    };
+
+    const handleToggleTabs = (tab) => {
         setActiveTab(tab);
+    };
+
+    const switchToClientsTab = () => {
+        setActiveTab("clients");
+    };
+
+    const switchToContactsTab = () => {
+        setActiveTab("contacts")
     }
 
-    function showCreateClientForm() {
+    const showCreateClientForm = () => {
         setIsCreateClient(true);
-        setCreateContact(false);
-        SetIsCreateButtons(false);
-    }
-    function showCreateContactForm() {
-        setCreateContact(true)
+        setIsCreateContact(false);
+        setIsCreateButtons(false);
+    };
+
+    const showCreateContactForm = () => {
+        setIsCreateContact(true);
         setIsCreateClient(false);
-        SetIsCreateButtons(false);
-    }
-    function handleBack() {
+        setIsCreateButtons(false);
+    };
+
+    const handleBack = () => {
         setIsCreateClient(false);
-        setCreateContact(false);
-        SetIsCreateButtons(true);
-    }
+        setIsCreateContact(false);
+        setIsCreateButtons(true);
+    };
 
     return (
-        <div className="m-[10px] w-[400px] bg-yellow-300 ml-[500px]">
-            <div className="flex items-center bg-lightgray-500 mt-[100px] ml-[5px] w-[300px] ">
+        <div className="m-[10px] w-[700px] bg-[#d9dcd6] ml-[400px] h-[400px]">
+            <div className="flex items-center bg-lightgray-500 mt-[90px] mr-[150px] w-[400px] ">
                 <div
-                    className={`tab1 ml-[60px] cursor-pointer
-                        ${activeTab === 'general' ? 'active' : 'inactive'}`}
-                    onClick={() => handleToggleTabs('general')}
+                    className={`tab1 bg-[#c2dfe3] cursor-pointer font-bold text-xl 
+                        w-[100px] h-[40px] pl-[10px]`}
+                    style={{ backgroundColor: activeTab === "general" ? "#d9dcd6" : "#f9f7f3" }}
+                    onClick={() => handleToggleTabs("general")}
                 >
                     General
                 </div>
                 <div
-                    className={`tab1 ml-[60px] cursor-pointer
-                        ${activeTab === 'clients' ? 'active' : 'inactive'}`}
-                    onClick={() => handleToggleTabs('clients')}
+                    className={`tab1 cursor-pointer font-bold text-xl w-[100px] h-[40px] pl-[10px]`}
+                    style={{ backgroundColor: activeTab === "clients" ? "#d9dcd6" : "#f9f7f3" }}
+                    onClick={() => handleToggleTabs("clients")}
                 >
                     Clients
                 </div>
                 <div
-                    className={`tab1 ml-[60px] cursor-pointer
-                        ${activeTab === 'contacts' ? 'active' : 'inactive'}`}
-                    onClick={() => handleToggleTabs('contacts')}
+                    className={`tab1 cursor-pointer font-bold text-xl w-[100px] h-[40px] pl-[10px]`}
+                    style={{ backgroundColor: activeTab === "contacts" ? "#d9dcd6" : "#f9f7f3" }}
+                    onClick={() => handleToggleTabs("contacts")}
                 >
                     Contacts
                 </div>
             </div>
 
-            {activeTab === 'general' && (
-                <div className="flex flex-col items-center mt-4 mr-[150px]">
-
+            {activeTab === "general" && (
+                <div className=" items-center mt-[60px] mr-[150px]">
                     {isCreateButtons && (
-                        <div className="ml-[50px]">
-                            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        <div className="flex flex-col ml-[50px] mt-[20px] w-[150px]">
+                            <button
+                                className="px-4 py-2 bg-[#c9184a] text-white rounded hover:bg-[#a4133c] mt-[30px]"
                                 onClick={showCreateClientForm}
                             >
-                                Create client</button>
-
-                            <button className="px-4 py-2 bg-blue-600 mt-[10px] text-white 
-                            rounded hover:bg-blue-700"
+                                Create client
+                            </button>
+                            <button
+                                className="px-4 py-2 bg-[#c9184a] mt-[50px] text-white rounded hover:bg-[#a4133c]"
                                 onClick={showCreateContactForm}
                             >
-                                Create contacts</button>
+                                Create contacts
+                            </button>
                         </div>
                     )}
 
-
                     {isCreateClient && (
                         <div className="ml-[80px]">
-                            <CreateClient />
-                            <button className="px-4 py-2 bg-blue-600 mt-[20px] 
-                            text-white rounded hover:bg-blue-700 ml-[90px] mb-[20px]"
+                            <CreateClient onClientCreated={fetchClients}
+                                switchToClientsTab={switchToClientsTab}
+                            />
+                            <button
+                                className="px-4 py-2 bg-[#c9184a] mt-[20px] text-white rounded hover:bg-[#a4133c] ml-[90px] mb-[20px]"
                                 onClick={handleBack}
                             >
-                                Back</button>
+                                Back
+                            </button>
                         </div>
                     )}
 
                     {isCreateContact && (
-                        <div className="ml-[20px]">
-                            <CreateContact />
-                            <button className="px-4 py-2 bg-blue-600 mt-[20px] 
-                            text-white rounded hover:bg-blue-700 ml-[140px] mb-[20px]"
+                        <div className="ml-[80px]">
+                            <CreateContact onContactCreated={fetchContacts}
+                                switchToContactsTab={switchToContactsTab}
+                            />
+                            <button
+                                className="px-4 py-2 bg-[#c9184a] mt-[20px] text-white 
+                                rounded hover:bg-[#a4133c] ml-[130px] mb-[20px]"
                                 onClick={handleBack}
                             >
-                                Back</button>
+                                Back
+                            </button>
                         </div>
                     )}
                 </div>
-
             )}
 
-            {activeTab === 'clients' && (
+            {activeTab === "clients" && (
                 <div className="mt-4">
-                    No clients found
+                    <ClientTable clients={clients} />
                 </div>
             )}
 
-            {activeTab === 'contacts' && (
+            {activeTab === "contacts" && (
                 <div className="mt-4">
-                    No contacts found
+                    <ContactTable contacts={contacts} />
                 </div>
+
             )}
         </div>
     );
