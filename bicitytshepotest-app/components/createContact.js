@@ -62,7 +62,7 @@ function CreateContact({ switchToContactsTab }) {
                 />
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-[#c9184a] text-white rounded hover:bg-[#a4133c]"
+                    className="px-4 py-2 bg-[#9d0208] text-white rounded hover:bg-[#a4133c]"
                 >
                     Add Contact
                 </button>

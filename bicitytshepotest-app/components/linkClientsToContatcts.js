@@ -34,10 +34,10 @@ function LinkClientsToContacts({ onLinkClients }) {
     };
 
     return (
-        <div className="flex flex-col items-center mt-[100px]">
+        <div className="flex flex-col items-center mt-[100px] ml-[150px]">
             <table className="w-[700px] border border-gray-400 border-collapse">
                 <thead>
-                    <tr className="bg-gray-200">
+                    <tr className="bg-[#9d0208] text-white">
                         <th className="w-[40px] border border-gray-400"></th>
                         <th className="px-6 py-2 text-left border border-gray-400">NAME</th>
                         <th className="px-6 py-2 text-left border border-gray-400">CLIENT CODE</th>
@@ -65,7 +65,7 @@ function LinkClientsToContacts({ onLinkClients }) {
 
             <button
                 onClick={handleLinkClients}
-                className="px-4 py-2 bg-[#c9184a] text-white rounded hover:bg-[#a4133c mt-[20px]"
+                className="px-4 py-2 bg-[#9d0208] text-white rounded hover:bg-[#a4133c mt-[20px]"
             >
                 Link Clients to Contacts
             </button>

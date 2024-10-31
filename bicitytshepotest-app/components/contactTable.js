@@ -22,11 +22,15 @@ function ContactTable({ contacts }) {
         setLinkClients(false);
     };
 
+    const handleBack = () => {
+        setLinkClients(false);
+    }
+
     return (
-        <div className="flex flex-col items-center mt-[40px]">
+        <div className="flex flex-col items-center mt-[80px]">
             <table className="w-[700px] border border-gray-400 border-collapse">
                 <thead>
-                    <tr className="bg-gray-200">
+                    <tr className="bg-[#9d0208] text-white">
                         <th className="px-6 py-2 text-left border border-gray-400">NAME</th>
                         <th className="px-6 py-2 text-left border border-gray-400">SURNAME</th>
                         <th className="px-6 py-2 text-left border border-gray-400">EMAIL</th>
@@ -54,8 +58,13 @@ function ContactTable({ contacts }) {
             </table>
 
             {linkClients && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pb-[150px]">
+                <div className=" flex flex-col fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pb-[150px]">
                     <LinkClientsToContacts onLinkClients={handleLinkClients} />
+                    <button className="px-4 py-2 bg-[#9d0208] text-white rounded 
+                        hover:bg-[#a4133c] mt-[20px] ml-[120px]"
+                        onClick={handleBack}
+                    >Back
+                    </button>
                 </div>
             )}
         </div>
