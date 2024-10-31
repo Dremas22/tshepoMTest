@@ -4,7 +4,6 @@ async function handler(req, res) {
     if (req.method === 'POST') {
         const { name, surname, email } = req.body;
 
-        // Basic validation
         if (!name || !surname || !email) {
             return res.status(400).json({ success: false, error: 'All fields are required' });
         }
