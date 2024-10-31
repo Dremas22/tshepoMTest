@@ -74,7 +74,7 @@ function HomePage() {
     };
 
     return (
-        <div className="m-[10px] w-[700px] bg-[#d9dcd6] ml-[400px] h-[400px]">
+        <div className="m-[10px] w-[800px] bg-[#d9dcd6] ml-[400px] h-[500px]">
             <div className="flex items-center bg-lightgray-500 mt-[90px] mr-[150px] w-[400px] ">
                 <div
                     className={`tab1 bg-[#c2dfe3] cursor-pointer font-bold text-xl 
@@ -152,15 +152,22 @@ function HomePage() {
 
             {activeTab === "clients" && (
                 <div className="mt-4">
-                    <ClientTable clients={clients} />
+                    {clients.length > 0 ? (
+                        <ClientTable clients={clients} />
+                    ) : (
+                        <p>No Clients Found</p>
+                    )}
                 </div>
             )}
 
             {activeTab === "contacts" && (
                 <div className="mt-4">
-                    <ContactTable contacts={contacts} />
+                    {contacts.length > 0 ? (
+                        <ContactTable contacts={contacts} />
+                    ) : (
+                        <p>No Contacts Found</p>
+                    )}
                 </div>
-
             )}
         </div>
     );

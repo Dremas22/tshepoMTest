@@ -1,13 +1,29 @@
+// pages/api/addClient.js
+
 import { supabase } from "@/db/lib";
 
- async function handler(req, res) {
+async function handler(req, res) {
     if (req.method === 'POST') {
         const { Name, clientCode, numberOfContacts } = req.body;
 
         try {
+            // Check if a client with the same name already exists
+            const { data: existingClients, error: checkError } = await supabase
+                .from('clients')
+                .select("Name")
+                .eq('Name', Name);
+
+            if (checkError) throw checkError;
+
+            if (existingClients.length > 0) {
+                // Client with the same name already exists
+                return res.status(400).json({ success: false, message: "Client with this name already exists" });
+            }
+
+            // Insert the new client if name is unique
             const { data, error } = await supabase
                 .from('clients')
-                .insert([{ Name, clientCode: clientCode }]);
+                .insert([{ Name, clientCode }]);
             
             if (error) throw error;
 

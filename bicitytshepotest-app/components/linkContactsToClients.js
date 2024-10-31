@@ -65,7 +65,7 @@ function LinkContactsToClients({ onLinkContacts }) {
 
             <button
                 onClick={handleLinkContacts}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mt-[20px]"
+                className="px-4 py-2 bg-[#c9184a] text-white rounded hover:bg-[#a4133c] mt-[20px]"
             >
                 Link Contacts to Clients
             </button>
