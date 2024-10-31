@@ -18,7 +18,6 @@ async function handler(req, res) {
                 return res.status(400).json({ success: false, message: "Client with this name already exists" });
             }
 
-            // Insert the new client if name is unique
             const { data, error } = await supabase
                 .from('clients')
                 .insert([{ Name, clientCode }]);
